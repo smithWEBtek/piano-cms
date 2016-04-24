@@ -12,8 +12,7 @@
     <a href="/logout">LOGOUT  _  </a>
     <a href="/students"> STUDENTS  _  </a>
     <a href="/songs">SONGS  _  </a>
-    <a href="/songs/new"> ADD SONG  _  </a>
-    <a href="/students/<%="#{@student.username}"%>"> MY INFO  _  </a>
+    <a href="/students/<%="#{@student.username}"%>"> MY SONGS  _  </a>
     <a href="/songs/:id/edit"> EDIT MY SONGS</a></h4>
 
 <!-- current Username logged in, or locals message -->
@@ -32,10 +31,13 @@
     <% end %>
 
  <!-- relevant content -->
-    <h4>CURRENT STUDENTS:</h4>
+    <h4>CURRENT STUDENTS and their songlists:</h4>
 
-    <%  @students.each do |student| %>
-    <h4><a href="/students/<%="#{student.slug}"%>"><%= student.username %></a></h4>
+    <%  @students.order(:username).each do |student| %>
+    <h3><%= student.username %></a></h3>
+    <% student.songs.each do |s|%>
+    <a href="/songs/<%="#{s.slug}"%>"><%= s.name %></a>
+    <% end %>
     <% end %>
 
     

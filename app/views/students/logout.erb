@@ -18,7 +18,7 @@
     <%= "#{@student.username}" %>
     <br>ID: <%="#{@student.id}"%></h4>
     <% else %>
-    <h4><%= "Successfully logged out, keep practicing!!" %></h4>
+    <h4>Successfully logged out, keep practicing <%= "#{@goodbye.upcase}" %> !!</h4>
     <% end %> 
 
     <% unless locals.empty? %>

@@ -52,7 +52,12 @@ class StudentsController < ApplicationController
   end
 
   get '/logout' do
+    if logged_in?
+      current_user
+    @goodbye = @student.username
+    @student = nil
     session.clear
+  end
     erb :'/students/logout'
   end
 
@@ -67,8 +72,13 @@ class StudentsController < ApplicationController
   end
 
   get '/students/:slug' do
-    @student = Student.find_by_slug(params[:slug]) 
-    erb :'/students/show', locals: {message: "#{@student.username}, here are the songs you are working on: "}
+    if logged_in?
+      current_user
+    @student = Student.find_by_slug(params[:slug])
+    erb :'/students/show', locals: {message: "Current song list for #{@student.username.upcase}: "}
+      else
+      redirect to '/'
+    end
   end
 
   get '/students/:slug/edit' do
@@ -85,39 +95,37 @@ class StudentsController < ApplicationController
     if logged_in?
     current_user
  
-    if !params["student"]["new_song"].empty?
-      song = Song.create(name: params["student"]["new_song"])
-      @student.songs << song
-    end
-     
     @ids = params["student"]["song_ids"]
-    
     ct = 0
-    while ct < @ids.size do
-      @ids.each do |i|
-      @song = Song.find(i)
-      if !@student.songs.include?(@song)
-        @student.songs.push(@song)
-      ct += 1
+      while ct < @ids.size do
+        @ids.each do |i|
+        @song = Song.find(i)
+        @student.songs.push(@song) unless @student.songs.include?(@song)
+        ct += 1
       end
-    end
- 
-    StudentSong.all.each do |row|
-      if row.student_id == @student.id
-        row.delete if !@ids.find(song_id: row.song_id)
+
+    @ss = []
+      StudentSong.all.each do |row|
+        if row.student_id == @student.id
+          @ss.push(row)
         end
       end
-    redirect to "/students/#{@student.username}"
-      end
+
+    @ss.each do |r|
+      if !@ids.include?(r.song_id.to_s)
+        r.delete
+        end
+      end 
+
+    if !params["student"]["new_song"].empty?
+      @newsong = Song.create(name: params["student"]["new_song"])
+      @student.songs.push(Song.all.last)
+      @student.save
+      # StudentSong.create(song_id: @newsong.id, student_id: @student.id)
     end
+      redirect to "/students/#{@student.username}"        
+      end
+    end     
   end  
 
 end
-
-
-
-
-
-
-
-
