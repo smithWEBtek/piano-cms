@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Piano Student App</title>
+</head>
+  <body>
+<body>
+    <h1>Piano Students CMS App</h1>
+<!-- main navbar -->
+    <h4><a href="/">HOME  _  </a>
+    <a href="/signup">SIGNUP  _  </a>
+    <a href="/login">LOGIN  _  </a>
+    <a href="/logout">LOGOUT</a>
+
+<!-- current Username logged in, or locals message -->
+
+    <% if session[:student_id].present? %>
+    <% @student = Student.find(session[:student_id]) %>
+    <h4>Username:
+    <%= "#{@student.username}" %>
+    <br>ID: <%="#{@student.id}"%></h4>
+    <h4><%= "Welcome #{@student.username}, choose from links above."%></h4>
+    <% else %>
+
+<!-- message if not logged in -->
+    <h4>Please enter valid info, and click submit: </h4>
+    <% end %> 
+ 
+<!-- relevant content -->
+
+    <h4><form action="/signup" method="POST">
+      <label for "username">Username:</label>
+        <input type="text" name="username" id="username" />
+        <br>
+      <label for "password">Password:</label>
+        <input type="text" name="password" id="password" />
+        <br>
+      <input type="submit" />
+    </form></h4>
+  </body>
+</html>

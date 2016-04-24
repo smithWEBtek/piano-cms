@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Piano Student App</title>
+</head>
+  <body>
+    <h1>Piano Students CMS App</h1>
+<% if !logged_in? %>
+<!-- main navbar -->
+    <h4><a href="/">HOME  _  </a>
+    <a href="/signup">SIGNUP  _  </a>
+    <a href="/login">LOGIN  _  </a>
+    <a href="/logout">LOGOUT</a>
+ 
+
+<!-- logged_in navbar -->
+<% else %>
+    <h4><a href="/">HOME  _  </a>
+    <a href="/signup">SIGNUP  _  </a>
+    <a href="/login">LOGIN  _  </a>
+    <a href="/logout">LOGOUT  _  </a>
+    <a href="/students"> STUDENTS  _  </a>
+    <a href="/songs">SONGS  _  </a>
+    <a href="/songs/new"> ADD SONG  _  </a>
+    <a href="/students/<%="#{@student.username}"%>"> MY INFO  _  </a>
+    <a href="/songs/:id/edit"> EDIT MY SONGS</a></h4>
+    <% end %>
+
+<!-- current Username logged in, or locals message -->
+
+    <% if session[:student_id].present? %>
+    <% @student = Student.find(session[:student_id]) %>
+    <h4>Username:
+    <%= "#{@student.username}" %>
+    <br>ID: <%="#{@student.id}"%></h4>
+    <h4><%= "Welcome #{@student.username}, choose from links above."%></h4>
+    <% else %>
+
+<!-- message if not logged in -->
+
+    <h4><%= "Welcome to the Piano Students CMS APP. Please SIGNUP or LOGIN" %></h4>
+    <% end %> 
+
+    <% unless locals.empty? %>
+    <h4><%= message %></h4>
+    <% end %>
+
+ <!-- relevant content -->
+
+  </body>
+</html>
