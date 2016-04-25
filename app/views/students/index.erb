@@ -13,10 +13,10 @@
     <a href="/students"> STUDENTS  _  </a>
     <a href="/songs">SONGS  _  </a>
     <a href="/students/<%="#{@student.username}"%>"> MY SONGS  _  </a>
-    <a href="/songs/:id/edit"> EDIT MY SONGS</a></h4>
+    <a href="/songs/:id/edit">EDIT MY SONGS  _  </a>
+    <a href="/students/:id/edit">EDIT MY INFO</a></h4>
 
 <!-- current Username logged in, or locals message -->
-
     <% if @student %>
     <h4>Username:
 
@@ -34,12 +34,11 @@
     <h4>CURRENT STUDENTS and their songlists:</h4>
 
     <%  @students.order(:username).each do |student| %>
-    <h3><%= student.username %></a></h3>
+    <h3><a href="/students/<%="#{student.username}"%>"><%= student.username %></a></h3>
     <% student.songs.each do |s|%>
     <a href="/songs/<%="#{s.slug}"%>"><%= s.name %></a>
     <% end %>
     <% end %>
 
-    
   </body>
 </html>

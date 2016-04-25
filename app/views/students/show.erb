@@ -5,6 +5,7 @@
 </head>
   <body>
     <h1>Piano Students CMS App</h1>
+
 <!-- main navbar -->
     <h4><a href="/">HOME  _  </a>
     <a href="/signup">SIGNUP  _  </a>
@@ -13,10 +14,10 @@
     <a href="/students"> STUDENTS  _  </a>
     <a href="/songs">SONGS  _  </a>
     <a href="/students/<%="#{@student.username}"%>"> MY SONGS  _  </a>
-    <a href="/songs/:id/edit"> EDIT MY SONGS</a></h4>
+    <a href="/songs/:id/edit">EDIT MY SONGS  _  </a>
+    <a href="/students/:id/edit">EDIT MY INFO</a></h4>
 
 <!-- current Username logged in, or locals message -->
-
     <% if @student %>
     <h4>Username:
 
@@ -31,9 +32,7 @@
     <% end %>
 
  <!-- relevant content -->
-
-    <%  @student.songs.order(:name).each do |song| %>
-
+    <%  @student_list.songs.order(:name).each do |song| %>
     <h5><a href="/songs/<%="#{song.slug}"%>"><%= song.name %></a></h5>  
     <% end %>
 

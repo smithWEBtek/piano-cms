@@ -7,15 +7,6 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "secret"
   end
 
-  get '/' do
-    if logged_in?
-      current_user
-    erb :'/index'
-  else
-    erb :'/index'
-    end
-  end 
-
   helpers
     def logged_in?
       !!session[:student_id]

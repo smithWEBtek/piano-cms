@@ -8,11 +8,9 @@
 <!-- main navbar -->
     <h4><a href="/">HOME  _  </a>
     <a href="/signup">SIGNUP  _  </a>
-    <a href="/login">LOGIN  _  </a>
-    <a href="/logout">LOGOUT</a>
+    <a href="/login">LOGIN</a>
 
 <!-- current Username logged in, or locals message -->
-
     <% if session[:student_id].present? %>
     <% @student = Student.find(session[:student_id]) %>
     <h4>Username:
@@ -20,11 +18,16 @@
     <br>ID: <%="#{@student.id}"%></h4>
     <h4><%= "Welcome #{@student.username}, choose from links above."%></h4>
     <% else %>
+    
     <h4>Please enter username/password & click LOGIN: </h4>
        <% end %>  
+
+    <% unless locals.empty? %>
+    <h4><%= message %></h4>
+    <% end %>
+
+
 <!-- relevant content -->
-
-
     <h4><form action="/login" method="POST">
       <label for "username">Username:</label>
         <input type="text" name="username" id="username" />
@@ -34,5 +37,6 @@
         <br>
       <input type="submit" name="login" value="LOGIN" />
     </form></h4>
+    
   </body>
 </html>

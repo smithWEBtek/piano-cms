@@ -51,4 +51,34 @@ class SongsController < ApplicationController
     erb :'/songs/edit'
   end 
 
+  patch '/songs/:id' do 
+    if logged_in?
+    current_user
+      @ids = params["student"]["song_ids"]
+      ct = 0
+        while ct < @ids.size do
+          @ids.each do |i|
+          @song = Song.find(i)
+          @student.songs.push(@song) unless @student.songs.include?(@song)
+          ct += 1
+        end
+      @ss = []
+        StudentSong.all.each do |row|
+          if row.student_id == @student.id
+            @ss.push(row)
+          end
+        end
+      @ss.each do |r|
+        if !@ids.include?(r.song_id.to_s)
+          r.delete
+          end
+        end 
+    if !params["student"]["new_song"].empty?
+      @newsong = Song.create(name: params["student"]["new_song"])
+      @student.songs.push(Song.all.last)
+    end
+      redirect to "/students/#{@student.username}"        
+      end
+    end     
+  end  
 end

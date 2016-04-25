@@ -23,25 +23,27 @@
     <a href="/students/<%="#{@student.username}"%>"> MY SONGS  _  </a>
     <a href="/songs/:id/edit">EDIT MY SONGS  _  </a>
     <a href="/students/:id/edit">EDIT MY INFO</a></h4>
-    <% end %>
 
 <!-- current Username logged in, or locals message -->
     <% if session[:student_id].present? %>
-    <% @student = Student.find(session[:student_id]) %>
+        <% @student = Student.find(session[:student_id]) %>
     <h4>Username:
-    <%= "#{@student.username}" %>
-    <br>ID: <%="#{@student.id}"%></h4>
-    <h4><%= "Welcome #{@student.username}, choose from links above."%></h4>
-    <% else %>
-
-<!-- message if not logged in -->
-
-    <h4><%= "Welcome to the Piano Students CMS APP. Please SIGNUP or LOGIN" %></h4>
+        <%= "#{@student.username}" %>
+        <br>ID: <%="#{@student.id}"%></h4>
     <% end %> 
+    <% end %>      
 
-    <% unless locals.empty? %>
-    <h4><%= message %></h4>
-    <% end %>
+    <h4><%= "#{@student.username.upcase}, you can either choose from links above, or edit your information below:"%></h4>
  
+
+ <form action="/students/<%="#{@student.id}/edit"%>" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="patch"> 
+      
+    <input type="text" name="student[username]" id="student_<%=@student.id%>" value="<%= @student.username %>"> 
+
+    <input type="text" name="student[password]" id="student_<%=@student.password%>" value="<%= @student.password %>">
+    <input type="submit" type="submit"/>
+
+    </form>
   </body>
 </html>

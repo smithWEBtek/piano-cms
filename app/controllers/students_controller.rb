@@ -12,17 +12,17 @@ class StudentsController < ApplicationController
   get '/signup' do
     if logged_in?
       current_user
-      redirect to "/students/#{@student.username}", locals: {message: "You are already signed in."}
+      redirect to "/students/#{@student.username}"
     else
       erb :'/students/new'
     end
   end
 
-  post '/signup' do
+  post '/signup' do 
     if Student.find_by(username: params[:username])
       erb  :'/students/new', locals: {message: "Username is taken, please try a different Username."}
     else
-      @student = Student.new(username: params[:username], password: params[:password])
+      @student = Student.new(params)
     if  @student.save
       session[:student_id] = @student.id
       redirect to "/students/#{@student.username}"
@@ -47,7 +47,7 @@ class StudentsController < ApplicationController
       session[:student_id] = @student.id
       redirect to "/students/#{@student.username}"
     else
-      erb :'/students/login'
+      erb :'/students/login', locals: {message: "Incorrect username and/or password."}
     end
   end
 
@@ -56,8 +56,8 @@ class StudentsController < ApplicationController
       current_user
     @goodbye = @student.username
     @student = nil
-    session.clear
-  end
+      session.clear
+    end
     erb :'/students/logout'
   end
 
@@ -74,58 +74,32 @@ class StudentsController < ApplicationController
   get '/students/:slug' do
     if logged_in?
       current_user
-    @student = Student.find_by_slug(params[:slug])
-    erb :'/students/show', locals: {message: "Current song list for #{@student.username.upcase}: "}
+    @student_list = Student.find_by_slug(params[:slug])
+    erb :'/students/show', locals: {message: "Current song list for #{@student_list.username.upcase}: "}
       else
       redirect to '/'
     end
   end
 
-  get '/students/:slug/edit' do
+  get '/students/:id/edit' do
     if logged_in?
-      @student = Student.find_by_slug(params[:slug]) 
-      erb :"/students/#{@student.slug}"
+      current_user
+      @student = Student.find_by(params[:slug]) 
+      erb :'/students/edit'
     else
-      logout
       redirect to '/'
     end
   end
 
-  patch '/students/:id/songs' do 
+  patch '/students/:id/edit' do
     if logged_in?
-    current_user
- 
-    @ids = params["student"]["song_ids"]
-    ct = 0
-      while ct < @ids.size do
-        @ids.each do |i|
-        @song = Song.find(i)
-        @student.songs.push(@song) unless @student.songs.include?(@song)
-        ct += 1
-      end
-
-    @ss = []
-      StudentSong.all.each do |row|
-        if row.student_id == @student.id
-          @ss.push(row)
-        end
-      end
-
-    @ss.each do |r|
-      if !@ids.include?(r.song_id.to_s)
-        r.delete
-        end
-      end 
-
-    if !params["student"]["new_song"].empty?
-      @newsong = Song.create(name: params["student"]["new_song"])
-      @student.songs.push(Song.all.last)
-      @student.save
-      # StudentSong.create(song_id: @newsong.id, student_id: @student.id)
+      current_user
+    @student.update(params["student"]) 
+    if !@student.save  
+       erb :'/students/editfail', locals: {message: "Please enter a valid Username and Password."}
+    else
+      redirect to "/students/#{@student.username}"
     end
-      redirect to "/students/#{@student.username}"        
-      end
-    end     
-  end  
-
+  end
+ end
 end
