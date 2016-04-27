@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Piano Student App</title>
+</head>
+  <body>
+    <h1>Piano Students CMS App</h1>
+<!-- main navbar -->
+<h4><a href="/">HOME  _  </a>
+<a href="/signup">SIGNUP  _  </a>
+<a href="/login">LOGIN  _  </a>
+<a href="/logout">LOGOUT  _  </a>
+<a href="/students"> STUDENTS  _  </a>
+<a href="/songs">SONGS  _  </a>
+<a href="/students/<%="#{@student.username}"%>"> MY SONGS  _  </a>
+<a href="/songs/:id/edit">EDIT MY SONGS  _  </a>
+<a href="/students/:id/edit">EDIT MY INFO</a></h4>
+
+<!-- current Username logged in, or locals message -->
+<% if @student %>
+    <h4>Username:
+    <%= "#{@student.username}" %>
+    <br>ID: <%="#{@student.id}"%></h4>
+<% else %>
+    <h4><%= "Please SIGNUP or LOGIN" %></h4>
+<% end %> 
+<% unless locals.empty? %>
+    <h4><%= message %></h4>
+<% end %>
+
+<!-- relevant content -->
+<p><a href="/students/:id/edit">Edit failed, please try again.</a></p>
+  </body>
+</html>

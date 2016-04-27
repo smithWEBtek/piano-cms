@@ -6,23 +6,21 @@
   <body>
     <h1>Piano Students CMS App</h1>
 <!-- main navbar -->
-    <h4><a href="/">HOME  _  </a>
-    <a href="/signup">SIGNUP  _  </a>
-    <a href="/login">LOGIN</a>
+<h4><a href="/">HOME  _  </a>
+<a href="/signup">SIGNUP  _  </a>
+<a href="/login">LOGIN</a>
 
 <!-- current Username logged in, or locals message -->
-    <% if @student %>
-    <h4>Username:
-
+<% if @student %>
+    <h4>Username:<br>
     <%= "#{@student.username}" %>
-    <br>ID: <%="#{@student.id}"%></h4>
-    <% else %>
+    ID: <%="#{@student.id}"%></h4>
+<% else %>
     <h4>Successfully logged out, keep practicing <%= "#{@goodbye.upcase}" %> !!</h4>
-    <% end %> 
-
-    <% unless locals.empty? %>
+<% end %> 
+<% unless locals.empty? %>
     <h4><%= message %></h4>
-    <% end %>
+<% end %>
 
   </body>
 </html>

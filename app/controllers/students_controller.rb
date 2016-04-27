@@ -1,12 +1,8 @@
 class StudentsController < ApplicationController
    
   get '/' do
-    if logged_in?
-      current_user
-    erb :'/index'
-  else
-    erb :'/index'
-    end
+    current_user
+    erb :'/index.html'    
   end
 
   get '/signup' do
@@ -14,20 +10,20 @@ class StudentsController < ApplicationController
       current_user
       redirect to "/students/#{@student.username}"
     else
-      erb :'/students/new'
+      erb :'/students/new.html'
     end
   end
 
   post '/signup' do 
     if Student.find_by(username: params[:username])
-      erb  :'/students/new', locals: {message: "Username is taken, please try a different Username."}
+      erb  :'/students/new.html', locals: {message: "Username is taken, please try a different Username."}
     else
       @student = Student.new(params)
-    if  @student.save
-      session[:student_id] = @student.id
-      redirect to "/students/#{@student.username}"
-    else
-      redirect to '/signup'
+      if  @student.save
+        session[:student_id] = @student.id
+        redirect to "/students/#{@student.username}"
+      else
+        redirect to '/signup'
       end
     end
   end
@@ -37,7 +33,7 @@ class StudentsController < ApplicationController
       current_user
       redirect to "/students/#{@student.username}"
     else
-      erb :'/students/login'
+      erb :'/students/login.html'
     end
   end
 
@@ -47,7 +43,7 @@ class StudentsController < ApplicationController
       session[:student_id] = @student.id
       redirect to "/students/#{@student.username}"
     else
-      erb :'/students/login', locals: {message: "Incorrect username and/or password."}
+      erb :'/students/login.html', locals: {message: "Incorrect username and/or password."}
     end
   end
 
@@ -55,17 +51,17 @@ class StudentsController < ApplicationController
     if logged_in?
       current_user
     @goodbye = @student.username
-    @student = nil
+      @student = nil
       session.clear
     end
-    erb :'/students/logout'
+    erb :'/students/logout.html'
   end
 
   get '/students' do
     if logged_in?
       current_user
       @students = Student.all
-      erb :'/students/index'
+      erb :'/students/index.html'
     else
       redirect to '/'
     end
@@ -74,9 +70,9 @@ class StudentsController < ApplicationController
   get '/students/:slug' do
     if logged_in?
       current_user
-    @student_list = Student.find_by_slug(params[:slug])
-    erb :'/students/show', locals: {message: "Current song list for #{@student_list.username.upcase}: "}
-      else
+      @student_list = Student.find_by_slug(params[:slug])
+      erb :'/students/show.html', locals: {message: "Current song list for #{@student_list.username.upcase}: "}
+    else
       redirect to '/'
     end
   end
@@ -85,7 +81,7 @@ class StudentsController < ApplicationController
     if logged_in?
       current_user
       @student = Student.find_by(params[:slug]) 
-      erb :'/students/edit'
+      erb :'/students/edit.html'
     else
       redirect to '/'
     end
@@ -95,11 +91,11 @@ class StudentsController < ApplicationController
     if logged_in?
       current_user
     @student.update(params["student"]) 
-    if !@student.save  
-       erb :'/students/editfail', locals: {message: "Please enter a valid Username and Password."}
-    else
-      redirect to "/students/#{@student.username}"
+      if !@student.save  
+        erb :'/students/edit_fail.html', locals: {message: "Please enter a valid Username and Password."}
+      else
+        redirect to "/students/#{@student.username}"
+      end
     end
   end
- end
 end

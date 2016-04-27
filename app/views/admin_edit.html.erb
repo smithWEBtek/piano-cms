@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Piano Student App</title>
+</head>
+  <body>
+    <h1>Piano Students CMS App: ADMIN PAGE</h1>
+
+<h4><a href="/">HOME  _  </a>
+<a href="/signup">SIGNUP  _  </a>
+<a href="/login">LOGIN  _  </a>
+<a href="/logout">LOGOUT  _  </a>
+<a href="/students"> STUDENTS  _  </a>
+<a href="/songs">SONGS</a><br><br>
+<a href="/admin"> EDIT STUDENTS & SONGS</a><br>
+
+<% if logged_in? %>
+    <h4>Username:
+    <%= "#{@student.username}" %>
+    <br>ID: <%="#{@student.id}"%></h4>
+<% end %>
+
+  <h4><%= "#{@student.username.upcase}, edit Student membership below:"%></h4>
+<form action="/admin" method="POST">
+  <input id="hidden" type="hidden" name="_method" value="patch">   
+<% Student.all.order(:username).each do |student| %>
+    <input type="checkbox" name="student[student_ids][]" id="student_<%=student.id%>" value="<%= student.id %>" 
+    <%='checked' if Student.find(student.id) %>><%=student.username%></input>
+<%end%>
+
+  <h4>ADD NEW STUDENT: </h4>
+  <label for "name">New Student Name:</label>
+  <input type="text" name="student[new_student]" id="new_student" /><br><br><br>
+ 
+<% Song.all.order(:name).each do |song| %>
+  <input type="checkbox" name="song[song_ids][]" id="song_<%=song.id%>" value="<%= song.id %>" 
+  <%='checked' if Song.find(song.id) %>><%=song.name%></input>
+<%end%><br>
+
+  <h4>ADD NEW SONG: </h4>
+  <label for "name">New Song Name:</label>
+  <input type="text" name="song[new_song]" id="new_song" /><br><br>
+
+  <input type="submit" /> 
+</form>
+
+  </body>
+</html>

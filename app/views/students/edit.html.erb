@@ -6,14 +6,13 @@
   <body>
     <h1>Piano Students CMS App</h1>
 <% if !logged_in? %>
-
-<!-- main navbar -->
+    <!-- main navbar -->
     <h4><a href="/">HOME  _  </a>
     <a href="/signup">SIGNUP  _  </a>
     <a href="/login">LOGIN</a>
- 
-<!-- logged_in navbar -->
+
 <% else %>
+    <!-- logged_in navbar -->
     <h4><a href="/">HOME  _  </a>
     <a href="/signup">SIGNUP  _  </a>
     <a href="/login">LOGIN  _  </a>
@@ -25,22 +24,19 @@
     <a href="/students/:id/edit">EDIT MY INFO</a></h4>
 
 <!-- current Username logged in, or locals message -->
-    <% if session[:student_id].present? %>
-        <% @student = Student.find(session[:student_id]) %>
-    <h4>Username:
-        <%= "#{@student.username}" %>
-        <br>ID: <%="#{@student.id}"%></h4>
-    <% end %> 
-    <% end %>      
+<% if session[:student_id].present? %>
+    <% @student = Student.find(session[:student_id]) %>
+    <h4>Username:<br>
+    <%= "#{@student.username}" %>
+    ID: <%="#{@student.id}"%></h4>
+<% end %> 
+<% end %>      
 
-    <h4><%= "#{@student.username.upcase}, you can either choose from links above, or edit your information below:"%></h4>
+<h4><%= "#{@student.username.upcase}, you can either choose from links above, or edit your information below:"%></h4>
  
-
  <form action="/students/<%="#{@student.id}/edit"%>" method="POST">
     <input id="hidden" type="hidden" name="_method" value="patch"> 
-      
     <input type="text" name="student[username]" id="student_<%=@student.id%>" value="<%= @student.username %>"> 
-
     <input type="text" name="student[password]" id="student_<%=@student.password%>" value="<%= @student.password %>">
     <input type="submit" type="submit"/>
 
