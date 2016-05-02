@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Piano Students CMS App</title>
+</head>
+  <body>
+  <h3>II III II III II III II III II III II III II III II III II III II III II III II III</h3>
+  <h1>Piano Students CMS App</h1>
+
+<!-- if NOT logged in: message, Login & Signup links -->
+<% if !logged_in? %>
+  <h4>Welcome to the Piano Students CMS App</h4>
+  <h4>Please <a href="/signup">Sign Up</a> or <a href="/login">Log In</a></h
+
+<!-- if logged in: main navbar for standard users -->
+<% elsif logged_in? %>
+  <h4><a href="/">Home  _  </a>
+  <a href="/students"> Students  _  </a>
+  <a href="/songs">Songs  _  </a>
+  <a href="/students/<%= "#{@student.id}" %>"> My Songs  _  </a>
+  <a href="/songs/:id/edit">Edit My Songs  _  </a>
+  <a href="/students/<%= "#{@student.id}" %>/edit">Edit My Info  _  </a>
+  <a href="/logout">LogOut</a></h4>
+  <h4> Logged In Student: <%= Student.find_by(id: session[:student_id]).username.upcase %> (ID: <%= session[:student_id] %>)</h4>
+<% end %> 
+
+<% unless locals.empty? %>
+  <h4><%= message %></h4>
+<% end %>
+
+<%= yield %>
+ 
+  </body>
+</html>

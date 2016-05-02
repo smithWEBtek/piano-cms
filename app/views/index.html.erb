@@ -1,55 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Piano Student App</title>
-</head>
-  <body>
-    <h1>Piano Students CMS App</h1>
+<% if logged_in? && @student.username == "admin"%>
+  <h4>Select Students to Delete:</h4>
+  <form action="/admin/students" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="patch">   
 
-<!-- unlogged-in navbar -->
-<% if !logged_in? %>
-    <h4><a href="/">HOME  _  </a>
-    <a href="/signup">SIGNUP  _  </a>
-    <a href="/login">LOGIN</a>
-
-<!-- admin navbar -->
-<% elsif @student.username == "admin" %> 
-    <h4><a href="/">HOME  _  </a>
-    <a href="/signup">SIGNUP  _  </a>
-    <a href="/login">LOGIN  _  </a>
-    <a href="/logout">LOGOUT  _  </a>
-    <a href="/students"> STUDENTS  _  </a>
-    <a href="/songs">SONGS</a><br><br>
-    <a href="/admin"> EDIT STUDENTS & SONGS</a><br>
- 
-<!-- logged-in navbar -->
-<% else %>
-    <h4><a href="/">HOME  _  </a>
-    <a href="/signup">SIGNUP  _  </a>
-    <a href="/login">LOGIN  _  </a>
-    <a href="/logout">LOGOUT  _  </a>
-    <a href="/students"> STUDENTS  _  </a>
-    <a href="/songs">SONGS  _  </a>
-    <a href="/students/<%="#{@student.username}"%>"> MY SONGS  _  </a>
-    <a href="/songs/:id/edit">EDIT MY SONGS  _  </a>
-    <a href="/students/:id/edit">EDIT MY INFO</a></h4>
+<% Student.all.order(:username).each do |student| unless student.username == "admin" %>
+    <input type="checkbox" name="student[student_ids][]" id="student_<%=student.id%>" value="<%= student.id %>" 
+    <%= 'unchecked' if Student.find(student.id) %>><%=student.username%></input>
+<% end %>   
 <% end %>
 
-<!-- current Username logged in, or locals message -->
-<% if logged_in? %>
-    <h4>Username:
-    <%= "#{@student.username}" %>
-    <br>ID: <%="#{@student.id}"%></h4>
-    <h4><%= "Welcome #{@student.username}, choose from links above."%></h4>
-<% else %>
+  <h4>Add Student: </h4>
+    <label for "name">New Student Name:</label>
+    <input type="text" name="student[new_student]" id="new_student" /><br><br>
+    <input type="submit" value="Update Students" />
+  </form>
 
-<!-- message if not logged in -->
-    <h4><%= "Welcome to the Piano Students CMS APP. Please SIGNUP or LOGIN" %></h4>
-<% end %> 
-
-<% unless locals.empty? %>
-    <h4><%= message %></h4>
+  <h4>Select Songs to Delete:</h4>
+<% Song.all.order(:name).each do |song| %>
+  <form action="/admin/songs" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="patch"> 
+    <input type="checkbox" name="song[song_ids][]" id="song_<%=song.id%>" value="<%= song.id %>"
+    <%= 'unchecked' if Song.find(song.id) %>><%=song.name %></input>
 <% end %>
- 
-  </body>
-</html>
+
+  <h4>Add Song: </h4>
+    <label for "name">New Song Name:</label>
+    <input type="text" name="song[new_song]" id="new_song" /><br><br>
+    <input type="submit" value="Update Songs" /> 
+  </form>
+<% end %>
