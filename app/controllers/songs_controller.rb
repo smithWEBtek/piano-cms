@@ -54,8 +54,8 @@ class SongsController < ApplicationController
       
       @ss_ids.each do |id|
         if !params["student"]["song_ids"].include?(id.to_s)
-           @student_song_row = StudentSong.find_by(song_id: id, student_id: @student.id)
-           @student_song_row.delete
+           @student_song= StudentSong.find_by(song_id: id, student_id: @student.id)
+           @student_song.delete
         end
       end
 

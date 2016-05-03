@@ -16,12 +16,12 @@ class StudentsController < ApplicationController
 
   post '/signup' do 
     if Student.find_by(username: params[:username])
-      erb :'/students/new.html', locals: {message: "Username is taken, please try a different Username."}
+      erb :'/students/new.html', locals: {message: "Username taken, please try a different Username."}
     else
       @student = Student.new(params)
       if @student.save
         session[:student_id] = @student.id 
-### use helper login method?  (see below)
+# login     #use helper  (login) method?  (see below)
         redirect to "/students/#{@student.id}"
       else
         redirect to '/signup'
@@ -41,13 +41,13 @@ class StudentsController < ApplicationController
   post '/login' do
     @student = Student.find_by(username: params[:username])
     if @student && @student.authenticate(params[:password])
-      # session[:student_id] = @student.id
-login(@student.id)  ####### see below ##### refactor ? ### login method? 
+      session[:student_id] = @student.id
+# login     #use helper  (login) method?  (see below)
       redirect to "/students/#{@student.id}"
     else
       redirect to '/login'
 # You might want to add a flash message here - google it!
-# I found it, installed Flash Gem, but was not able to get it to work yet
+# found and installed Flash Gem, but was not able to get it to work yet
     end
   end
 #########################################################################

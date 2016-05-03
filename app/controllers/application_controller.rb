@@ -1,10 +1,17 @@
 class ApplicationController < Sinatra::Base
+# require 'sinatra/flash'
 
-   configure do
+  configure do
     set :public_folder, 'public'
     set :views, 'app/views'
     enable :sessions
     set :session_secret, "secret"
+  end
+
+  post '/time' do
+    # @time = Time.now.strftime("%I:%M:%S")
+    # flash[:time] = Time.now.strftime("%I:%M:%S")
+    redirect '/'
   end
 
   patch '/admin/students' do 
