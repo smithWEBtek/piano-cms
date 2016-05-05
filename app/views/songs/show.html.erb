@@ -1,5 +1,5 @@
-<h4>SONG: <%= @song.name %></h4>
-<h4>Students playing this song:</h4>
+<h3>Song: <%= @song.name %></h3>
+<h4>Students playing <%= @song.name %>:</h4>
 <% @song.students.each do |student| %>
   <h4><a href="/students/<%="#{student.id}"%>"><%= student.username %></a></h4>
 <% end %>

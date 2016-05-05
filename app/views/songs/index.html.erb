@@ -1,4 +1,4 @@
-<h4>Current Songs:</h4>
-<%  @songs.order(:name).each do |s| %>
-  <h4><a href="/songs/<%="#{s.slug}"%>"><%= s.name %></a></h4>
+<h4>All Songs:</h4>
+<%  @all_songs.order(:name).each do |song| %>
+  <h4><a href="/songs/<%="#{song.id}"%>"><%= song.name %></a></h4>
 <% end %>

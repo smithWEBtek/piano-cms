@@ -1,7 +1,8 @@
-<h4>Edit your information below:</h4>
-<form action="/students/<%="#{@student.id}/edit"%>" method="POST">
+<h4><%= @current_user.username.upcase %>, edit your User Info below:</h4>
+
+<form action="/students/<%="#{@current_user.id}"%>" method="POST">
   <input id="hidden" type="hidden" name="_method" value="patch"> 
-  <input type="text" name="student[username]" id="student_<%=@student.id%>" value="<%= @student.username %>"> 
-  <input type="text" name="student[password]" id="student_<%=@student.password%>" value="<%= @student.password %>">
-  <input type="submit" type="submit"/>
+  <input type="text" name="student[username]" id="student_<%=@current_user.id%>" value="<%= @current_user.username %>"> 
+  <input type="text" name="student[password]" id="student_<%=@current_user.id%>" value="<%= @current_user.password %>">
+  <input type="submit" value="Submit Changes" />
 </form>

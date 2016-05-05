@@ -1,7 +1,8 @@
-  <h4>Current Students and their songlists:</h4>
-<% @students.order(:username).each do |student| %>
+<h4>All Students and their SongLists:</h4>
+
+<% @all_students.order(:username).each do |student| %>
   <h4><a href="/students/<%="#{student.id}"%>"><%= student.username.upcase %>:  </a></h4>
-<% student.songs.each do |s|%>
-  <a href="/songs/<%="#{s.slug}"%>"><%= s.name %></a>
+<% student.songs.each do |song|%>
+  <a href="/songs/<%="#{song.id}"%>"><%= song.name %></a>
 <% end %>
 <% end %>

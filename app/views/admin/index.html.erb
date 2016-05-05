@@ -1,0 +1,40 @@
+<% if logged_in? && current_user.username == "admin" %>
+
+<h4>Select Students to Delete:</h4>
+<% @all_students.each do |student| unless student.username == "admin" %>  
+
+  <form action="/students/<%= student.id %>/delete" method="post">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <input type="checkbox" name="student[student_ids][]" id="student_<%= student.id %>" value="<%= student.id %>" 
+    <%= 'unchecked' if @all_students.find(student.id) %>><%= student.username %>
+<% end %>   
+<% end %><br>
+    <input type="submit" value="Delete Students" />
+  </form><br>
+
+<h4>Add New Student: </h4>
+  <form action="/students/new" method="POST">  
+    <label for="name">Username:</label>
+    <input type="text" name="username" id="username" /><br>
+    <label for="name">Password:</label>
+    <input type="text" name="password" id="password" /><br>
+    <input type="submit" value="Add Student" />
+  </form><br><br>
+
+<h4>Select Songs to Delete:</h4>
+<% @all_songs.all.order(:name).each do |song| %>
+  <form action="/songs/<%= "#{song.id}"%>/delete" method="post">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <input type="checkbox" name="song[song_ids][]" id="song_<%=song.id%>" value="<%= song.id %>"
+    <%= 'unchecked' if @all_songs.find(song.id) %>><%=song.name %></input>
+<% end %><br>
+    <input type="submit" value="Delete Songs" /> 
+  </form>
+
+<h4>Add Song: </h4>
+  <form action="/songs/new" method="POST">
+    <label for "name">New Song Name:</label>
+    <input type="text" name="song[name]" id="song[name]" /><br><br>
+    <input type="submit" value="Add Song" /> 
+  </form>
+<% end %>
