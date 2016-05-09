@@ -10,6 +10,10 @@ class SongsController < ApplicationController
     end
   end
 
+  get '/songs/new' do
+    erb :"/songs/new.html"
+  end
+
   get '/songs/:id' do
     if logged_in? 
       current_user
@@ -29,12 +33,15 @@ class SongsController < ApplicationController
       redirect to '/'
     end
   end 
-  
+
   post '/songs/new' do
     if params["song"]["name"].present?
       new_song = Song.create(name: params["song"]["name"])
       current_user.songs.push(new_song)
       redirect to :"/students/#{current_user.id}"
+     
+    else
+      redirect to "/songs/new"
     end
   end
 

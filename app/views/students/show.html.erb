@@ -2,3 +2,5 @@
 <%  @student.songs.order(:name).each do |song| %>
   <h5><a href="/songs/<%="#{song.id}"%>"><%= song.name %></a></h5>  
 <% end %>
+
+<a href="/songs/new">Add new song</a>
