@@ -8,8 +8,6 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    @all_students = Student.all.order(:username)
-    @all_songs = Song.all.order(:name)
     erb :'/admin/index.html'
   end
 

@@ -1,16 +1,6 @@
 <% if logged_in? && current_user.username == "admin" %>
 
-<h4>Select Students to Delete:</h4>
-<% @all_students.each do |student| unless student.username == "admin" %>  
-
-  <form action="/students/<%= student.id %>/delete" method="post">
-    <input id="hidden" type="hidden" name="_method" value="patch">
-    <input type="checkbox" name="student[student_ids][]" id="student_<%= student.id %>" value="<%= student.id %>" 
-    <%= 'unchecked' if @all_students.find(student.id) %>><%= student.username %>
-<% end %>   
-<% end %><br>
-    <input type="submit" value="Delete Students" />
-  </form><br>
+<h4><a href="/students/destroy">Delete Students</a></h4>
 
 <h4><a href="/students/new">Add New Student</a></h4>
 
