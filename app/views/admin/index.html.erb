@@ -12,17 +12,9 @@
     <input type="submit" value="Delete Students" />
   </form><br>
 
-<a href="/students/new">Add New Student</a>
+<h4><a href="/students/new">Add New Student</a></h4>
 
-<h4>Select Songs to Delete:</h4>
-<% @all_songs.all.order(:name).each do |song| %>
-  <form action="/songs/<%= "#{song.id}"%>/delete" method="post">
-    <input id="hidden" type="hidden" name="_method" value="patch">
-    <input type="checkbox" name="song[song_ids][]" id="song_<%=song.id%>" value="<%= song.id %>"
-    <%= 'unchecked' if @all_songs.find(song.id) %>><%=song.name %></input>
-<% end %><br>
-    <input type="submit" value="Delete Songs" /> 
-  </form>
+<h4><a href="/songs/destroy">Delete Songs</a></h4>
 
 <h4><a href="/songs/new">Add New Song</a></h4>
 <% end %>

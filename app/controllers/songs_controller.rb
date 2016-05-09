@@ -14,6 +14,11 @@ class SongsController < ApplicationController
     erb :"/songs/new.html"
   end
 
+  get '/songs/destroy' do
+    @all_songs = Song.all.order(:name)
+    erb :"/songs/delete.html"
+  end
+
   get '/songs/:id' do
     if logged_in? 
       current_user
@@ -67,4 +72,5 @@ class SongsController < ApplicationController
     end
     redirect to '/admin' 
   end
+
 end
