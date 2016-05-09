@@ -12,14 +12,7 @@
     <input type="submit" value="Delete Students" />
   </form><br>
 
-<h4>Add New Student: </h4>
-  <form action="/students/new" method="POST">  
-    <label for="name">Username:</label>
-    <input type="text" name="username" id="username" /><br>
-    <label for="name">Password:</label>
-    <input type="text" name="password" id="password" /><br>
-    <input type="submit" value="Add Student" />
-  </form><br><br>
+<a href="/students/new">Add New Student</a>
 
 <h4>Select Songs to Delete:</h4>
 <% @all_songs.all.order(:name).each do |song| %>
