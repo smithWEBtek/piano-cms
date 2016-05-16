@@ -14,6 +14,11 @@ class StudentsController < ApplicationController
     erb :'/students/new.html'
   end
 
+  get '/students/destroy' do
+    @all_students = Student.all.order(:username)
+    erb :'/students/delete.html'
+  end
+
   post '/students/new' do
     if Student.find_by(username: params[:username])
       redirect to '/students/new'
