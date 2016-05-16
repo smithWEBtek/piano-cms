@@ -42,7 +42,6 @@ class ApplicationController < Sinatra::Base
 
   get '/admin' do
     @all_students = Student.all.order(:username)
-    @all_songs = Song.all.order(:name)
     erb :'/admin/index.html'
   end
 
