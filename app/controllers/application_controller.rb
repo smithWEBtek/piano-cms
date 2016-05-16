@@ -39,7 +39,6 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/admin' do
-    @all_students = Student.all.order(:username)
     erb :'/admin/index.html'
   end
 
