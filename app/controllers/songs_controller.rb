@@ -1,15 +1,7 @@
 class SongsController < ApplicationController
 
-  get '/songs/new' do
-    if logged_in?
-      current_user
-      erb :'/songs/new.html'
-    end
-  end
-
   get '/songs' do
-    if logged_in?
-      current_user
+    if current_user
       @songs = Song.all
       erb :'/songs/index.html'
     else
@@ -17,26 +9,8 @@ class SongsController < ApplicationController
     end
   end
 
-  post '/songs' do
-    if logged_in?
-      current_user
-      @student_songs = params["student"]["song_ids"] 
-    @student_songs.each do |sid|
-      if !StudentSong.find_by(song_id: sid)
-        StudentSong.create(song_id: sid, student_id: @student.id)
-      end
-      if !params["song"]["name"].empty? && !Song.find_by(name: params["song"]["name"])
-        @song = Song.create(name: params["song"]["name"])
-        StudentSong.create(song_id: @song.id, student_id: @student.id)
-      end
-        redirect to "students/#{@student.slug}"
-      end
-    end
-  end 
- 
   get '/songs/:slug' do
-    if logged_in?
-      current_user
+    if current_user
       @song = Song.find_by_slug(params[:slug])
       erb :'/songs/show.html'
     else
@@ -45,40 +19,50 @@ class SongsController < ApplicationController
   end
 
   get '/songs/:id/edit' do
-    if logged_in?
-      current_user
+    if current_user
+      erb :'/songs/edit.html'
+    else
+      erb :'/'
     end
-    erb :'/songs/edit.html'
   end 
-
-  patch '/songs/:id' do 
-    if logged_in?
-      current_user
-    @ids = params["student"]["song_ids"]
-    ct = 0
-      while ct < @ids.size do
-        @ids.each do |i|
-        @song = Song.find(i)
-        @student.songs.push(@song) unless @student.songs.include?(@song)
-        ct += 1
-      end
-    @ss = []
+ 
+  def student_song_ids(id)
+    @ss_ids = []
     StudentSong.all.each do |row|
       if row.student_id == @student.id
-        @ss.push(row)
-        end
+        @ss_ids.push(row.song_id)
       end
-      @ss.each do |r|
-      if !@ids.include?(r.song_id.to_s)
-        r.delete
-        end
-      end 
-    if !params["student"]["new_song"].empty?
-      @newsong = Song.create(name: params["student"]["new_song"])
-        @student.songs.push(Song.all.last)
+      @ss_ids
     end
-      redirect to :"/students/#{@student.username}"        
+  end
+
+  def add_student_song(name)
+    song = Song.create(name)
+    @student.songs.push(song)
+  end
+ 
+  patch '/songs/:id' do 
+    if current_user
+      student_song_ids(@student.id)
+      if params["student"]["song_ids"]
+        params["student"]["song_ids"].each do |id|
+          if !@ss_ids.include?(id.to_i)
+            StudentSong.create(song_id: id.to_i, student_id: @student.id)
+          end
+        end
       end
+      
+      @ss_ids.each do |id|
+        if !params["student"]["song_ids"].include?(id.to_s)
+           @student_song_row = StudentSong.find_by(song_id: id, student_id: @student.id)
+           @student_song_row.delete
+        end
+      end
+
+      if !params["student"]["new_song"].empty?
+        add_student_song(name: params["student"]["new_song"])
+      end
+      redirect to :"/students/#{@student.id}"
     end     
-  end  
+  end
 end

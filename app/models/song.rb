@@ -10,4 +10,9 @@ class Song < ActiveRecord::Base
   def self.find_by_slug(slug)
     self.all.find{|a| a.slug == slug }
   end
+
+  def delete_song(id)
+    song = Song.find(id)
+    song.delete
+  end
 end

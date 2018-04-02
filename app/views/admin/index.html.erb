@@ -1,3 +1,8 @@
+<h1>ADMIN Dashboard</h1>
+<h3>Songs, Tracks, Lessons, Recordings, Library Links</h3>
+
+
+
 <% if logged_in? && @student.username == "admin"%>
   <h4>Select Students to Delete:</h4>
   <form action="/admin/students" method="POST">

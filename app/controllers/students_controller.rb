@@ -2,13 +2,13 @@ class StudentsController < ApplicationController
    
   get '/' do
     current_user
-    erb :'/index.html'    
+    erb :'/index.html'  
   end
 
   get '/signup' do
     if logged_in?
       current_user
-      redirect to "/students/#{@student.username}"
+      redirect to "/students/#{@student.id}"
     else
       erb :'/students/new.html'
     end
@@ -16,12 +16,13 @@ class StudentsController < ApplicationController
 
   post '/signup' do 
     if Student.find_by(username: params[:username])
-      erb  :'/students/new.html', locals: {message: "Username is taken, please try a different Username."}
+      erb :'/students/new.html', locals: {message: "Username is taken, please try a different Username."}
     else
       @student = Student.new(params)
-      if  @student.save
-        session[:student_id] = @student.id
-        redirect to "/students/#{@student.username}"
+      if @student.save
+        session[:student_id] = @student.id 
+### use helper login method?  (see below)
+        redirect to "/students/#{@student.id}"
       else
         redirect to '/signup'
       end
@@ -31,7 +32,7 @@ class StudentsController < ApplicationController
   get '/login' do
     if logged_in?
       current_user
-      redirect to "/students/#{@student.username}"
+      redirect to "/students/#{@student.id}"
     else
       erb :'/students/login.html'
     end
@@ -41,25 +42,35 @@ class StudentsController < ApplicationController
     @student = Student.find_by(username: params[:username])
     if @student && @student.authenticate(params[:password])
       session[:student_id] = @student.id
-      redirect to "/students/#{@student.username}"
+### login(@student.id)  ####### see below ##### refactor ? ### login method? 
+      redirect to "/students/#{@student.id}"
     else
-      erb :'/students/login.html', locals: {message: "Incorrect username and/or password."}
+      redirect to '/login'
+### You might want to add a flash message here - google it!
+### I found it, installed the Gem, but was not able to get it to work yet
     end
   end
+################################################################
+### why does this login method work when it is in students_controller, 
+### but it doesn't work if only in the application_controller helpers?  
+
+    # def login(student_id)
+    #   session[:student_id] = student_id
+    # end
+################################################################
 
   get '/logout' do
-    if logged_in?
-      current_user
-    @goodbye = @student.username
-      @student = nil
-      session.clear
+    if current_user
+      logout
+      erb :'/index.html',locals:{message: "Successful Log Out. Keep practicing, #{@student.username.upcase}!"}
+    elsif !current_user
+      redirect to '/index.html'
+    else
     end
-    erb :'/students/logout.html'
   end
 
   get '/students' do
-    if logged_in?
-      current_user
+    if current_user
       @students = Student.all
       erb :'/students/index.html'
     else
@@ -67,20 +78,26 @@ class StudentsController < ApplicationController
     end
   end
 
-  get '/students/:slug' do
+  get '/students/:id' do
     if logged_in?
-      current_user
-      @student_list = Student.find_by_slug(params[:slug])
-      erb :'/students/show.html', locals: {message: "Current song list for #{@student_list.username.upcase}: "}
+      @student = Student.find(params[:id])
+      erb :'/students/show.html', locals: {message: "Current song list for #{@student.username.upcase}: "}
+    else
+      redirect to '/'
+    end
+  end
+
+ get '/students/:slug' do
+    if current_user
+      @student_list = Student.find_by_slug(:slug)
+      erb :'/students/show.html', locals: {message: "Current song list for #{@student_list.slug.upcase}: "}
     else
       redirect to '/'
     end
   end
 
   get '/students/:id/edit' do
-    if logged_in?
-      current_user
-      @student = Student.find_by(params[:slug]) 
+    if current_user
       erb :'/students/edit.html'
     else
       redirect to '/'
@@ -88,13 +105,12 @@ class StudentsController < ApplicationController
   end
 
   patch '/students/:id/edit' do
-    if logged_in?
-      current_user
+    if current_user
     @student.update(params["student"]) 
       if !@student.save  
-        erb :'/students/edit_fail.html', locals: {message: "Please enter a valid Username and Password."}
+        erb :'/students/edit.html', locals: {message: "Edit failed, please enter a valid Username and Password."}
       else
-        redirect to "/students/#{@student.username}"
+        redirect to "/students/#{@student.id}"
       end
     end
   end

@@ -1,26 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Piano Student App</title>
-</head>
-  <body>
-    <h1>Piano Students CMS App</h1>
-<!-- main navbar -->
-<h4><a href="/">HOME  _  </a>
-<a href="/signup">SIGNUP  _  </a>
-<a href="/login">LOGIN</a>
-
-<!-- current Username logged in, or locals message -->
-<% if @student %>
-    <h4>Username:<br>
-    <%= "#{@student.username}" %>
-    ID: <%="#{@student.id}"%></h4>
-<% else %>
-    <h4>Successfully logged out, keep practicing <%= "#{@goodbye.upcase}" %> !!</h4>
-<% end %> 
-<% unless locals.empty? %>
-    <h4><%= message %></h4>
+<% if !logged_in? %>
+  <h4>Successfully logged out, keep practicing <%= "#{@student.username.upcase}" %> !!</h4>
 <% end %>
-
-  </body>
-</html>

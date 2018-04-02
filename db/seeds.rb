@@ -1,10 +1,15 @@
 
 student_list = [
-["bill", "asdf"], 
+["jane", "asdf"],
+["ben", "asdf"],
+["phil", "asdf"],
+["bill", "asdf"],
+["fred", "asdf"], 
 ["mary", "asdf"],
 ["bob", "asdf"], 
 ["brad", "asdf"],
-["jane", "asdf"]
+["sue", "asdf"],
+["admin", "asdf"]
 ]
 
 song_list = [
@@ -14,14 +19,18 @@ song_list = [
 "Let It Be",
 "Hey Jude",
 "Piano Man",
-"Skyfall"
+"Skyfall", 
+"Amapola",
+"Overjoyed",
+"Stardust"
 ]
 
 
 student_song_list = [
 [1, 1], [1, 4], [1, 2], [2, 2], [2, 5], [2, 3],
 [3, 3], [3, 6], [3, 4], [4, 4], [4, 5], [5, 5], 
-[5, 6], [1, 6], [2, 1], [3, 2] 
+[5, 6], [1, 6], [2, 1], [3, 2], [9, 9], [8, 8],
+[7, 8], [7, 9], [8, 6] 
 ]
 
 student_list.each do |username, password|
