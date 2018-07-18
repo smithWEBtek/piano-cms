@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <form action="/songs/<%="#{@student.id}"%>" method="POST">
   <input id="hidden" type="hidden" name="_method" value="patch"> 
   <h4>Edit your Songs list below: </h4> 
@@ -5,10 +6,29 @@
 <% Song.all.order(:name).each do |song| %>
   <input type="checkbox" name="student[song_ids][]" id="song_<%=song.id%>" value="<%= song.id %>" 
   <%='checked' if @student.songs.include?(song)%>><%=song.name%></input>
+=======
+<form action="/songs/<%="#{@current_user.id}"%>" method="POST">
+  <input id="hidden" type="hidden" name="_method" value="patch"> 
+  <h4><%= @current_user.username.upcase %>, edit your Song list below: </h4> 
+  
+<% @all_songs.each do |song| %>
+  <input type="checkbox" name="student[song_ids][]" id="song_<%=song.id%>" value="<%= song.id %>" 
+  <%='checked' if @current_user.songs.include?(song)%>><%=song.name%></input>
+>>>>>>> 14175612567dbd181af3bbf9e201aa3f41921d0c
 <%end%><br></br>
+<input type="submit" value="Update Song List" />
+</form><br><br>
 
+<<<<<<< HEAD
   <h4>Or, add a new song: </h4>
   <label for "name">Song Name:</label>
   <input type="text" name="student[new_song]" id="new_song" /><br>
   <input type="submit" />
+=======
+<h4>Add Song: </h4>
+<form action="/songs/new" method="POST" />
+  <label for "name">Song Name:</label>
+  <input type="text" name="song[name]" id="name" /><br>
+  <input type="submit" value="Add Song" />
+>>>>>>> 14175612567dbd181af3bbf9e201aa3f41921d0c
 </form>

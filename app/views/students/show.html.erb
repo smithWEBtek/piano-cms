@@ -1,3 +1,12 @@
+<<<<<<< HEAD
 <%  @student.songs.order(:name).each do |song| %>
   <h5><a href="/songs/<%="#{song.slug}"%>"><%= song.name %></a></h5>  
 <% end %>
+=======
+<h4><%= "#{@student.username.upcase}" %>'s songs: </h4>
+<%  @student.songs.order(:name).each do |song| %>
+  <h5><a href="/songs/<%="#{song.id}"%>"><%= song.name %></a></h5>  
+<% end %>
+
+<a href="/songs/new">Add new song</a>
+>>>>>>> 14175612567dbd181af3bbf9e201aa3f41921d0c

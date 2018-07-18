@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1>ADMIN Dashboard</h1>
 <h3>Songs, Tracks, Lessons, Recordings, Library Links</h3>
 
@@ -33,4 +34,15 @@
     <input type="text" name="song[new_song]" id="new_song" /><br><br>
     <input type="submit" value="Update Songs" /> 
   </form>
+=======
+<% if logged_in? && current_user.username == "admin" %>
+
+<h4><a href="/students/destroy">Delete Students</a></h4>
+
+<h4><a href="/students/new">Add New Student</a></h4>
+
+<h4><a href="/songs/destroy">Delete Songs</a></h4>
+
+<h4><a href="/songs/new">Add New Song</a></h4>
+>>>>>>> 14175612567dbd181af3bbf9e201aa3f41921d0c
 <% end %>

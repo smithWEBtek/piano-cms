@@ -14,8 +14,8 @@ student_list = [
 
 song_list = [
 "Human Nature", 
-"The Scientist", 
-"Someone Like You",
+"Scientist", 
+"Someone",
 "Let It Be",
 "Hey Jude",
 "Piano Man",
