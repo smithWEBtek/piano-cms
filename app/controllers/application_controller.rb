@@ -61,5 +61,5 @@ class ApplicationController < Sinatra::Base
       song = Song.find(id.to_i)
       song.delete
     end 
-  end
+  
 end 
