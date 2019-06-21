@@ -7,66 +7,28 @@
   <h3>II III II III II III II III II III II III II III II III II III II III II III II III</h3>
   <h1>Piano Students CMS App</h1>
 
-<<<<<<< HEAD
 <!-- if NOT logged in: message, Login & Signup links -->
 <% if !logged_in? %>
   <h4>Welcome to the Piano Students CMS App</h4>
   <h4>Please <a href="/signup">Sign Up</a> or <a href="/login">Log In</a></h
-=======
-
-<!-- if NOT logged in: message, Login & Signup links -->
-<% if !logged_in? %>
-  <h4><a href="/">Home</a> - Welcome to the Piano Students CMS App</h4>
-  <h4>Please <a href="/students/new">Sign Up</a> or <a href="/login">Log In</a></h
-
-
-<!-- if logged in as Admin -->
-<% elsif logged_in? && current_user.username == "admin" %>
-  <h4><a href="/">Home  _  </a>
-  <a href="/students"> Students  _  </a>
-  <a href="/songs">Songs  _  </a>
-  <a href="/students/<%= "#{current_user.id}" %>"> My Songs  _  </a>
-  <a href="/songs/<%= "#{current_user.id}" %>/edit">Edit My Songs  _  </a>
-  <a href="/students/<%= "#{current_user.id}" %>/edit">Edit My Info  _  </a>
-  <a href="/logout">LogOut  _  </a>
-  <a href="/admin">Admin Page</a>
-  </h4>
-  <h4> Current User: <%= current_user.username.upcase %> (ID: <%= current_user.id %>)</h4>
-
->>>>>>> 14175612567dbd181af3bbf9e201aa3f41921d0c
 
 <!-- if logged in: main navbar for standard users -->
 <% elsif logged_in? %>
   <h4><a href="/">Home  _  </a>
   <a href="/students"> Students  _  </a>
   <a href="/songs">Songs  _  </a>
-<<<<<<< HEAD
   <a href="/students/<%= "#{@student.id}" %>"> My Songs  _  </a>
   <a href="/songs/:id/edit">Edit My Songs  _  </a>
   <a href="/students/<%= "#{@student.id}" %>/edit">Edit My Info  _  </a>
   <a href="/logout">LogOut</a></h4>
   <h4> Logged In Student: <%= Student.find_by(id: session[:student_id]).username.upcase %> (ID: <%= session[:student_id] %>)</h4>
-=======
-  <a href="/students/<%= "#{current_user.id}" %>"> My Songs  _  </a>
-  <a href="/songs/<%= "#{current_user.id}" %>/edit">Edit My Songs  _  </a>
-  <a href="/students/<%= "#{current_user.id}" %>/edit">Edit My Info  _  </a>
-  <a href="/logout">LogOut</a></h4>
-  <h4> Current User: <%= current_user.username.upcase %> (ID: <%= current_user.id %>)</h4>
->>>>>>> 14175612567dbd181af3bbf9e201aa3f41921d0c
 <% end %> 
 
 <% unless locals.empty? %>
   <h4><%= message %></h4>
 <% end %>
 
-<<<<<<< HEAD
 <%= yield %>
  
-=======
-
-<%= yield %>
- 
-
->>>>>>> 14175612567dbd181af3bbf9e201aa3f41921d0c
   </body>
 </html>
